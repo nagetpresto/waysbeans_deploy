@@ -53,10 +53,11 @@ function App() {
 
   // Logout Hanldler
   function handleLogOut() {
+    window.location.replace('/')
     dispatch({
       type: "LOGOUT",
     });
-  window.location.replace('/')
+  
   }
 
   // Calculating Cart Item
