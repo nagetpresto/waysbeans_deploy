@@ -39,7 +39,7 @@ function ProductDetail(){
     const { id } = useParams(); 
     const intId = parseInt(id, 10);
     const addToCart = useMutation(async (e) => {
-        if (state) {
+        if (localStorage.token) {
             if(isConfirmed === true){
                 try {
                     e.preventDefault();
@@ -95,7 +95,7 @@ function ProductDetail(){
                 </Modal>
                 <Modal show={showLogin} onHide={() => setShowLogin(false)}>
                     <Modal.Body className='text-danger text-center'>
-                        Please login to proceed transaction!
+                        Please login or register to proceed transaction!
                     </Modal.Body>
                 </Modal>
             </Row>
