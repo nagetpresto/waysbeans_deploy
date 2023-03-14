@@ -36,6 +36,7 @@ function SignInForm(props) {
         type: "LOGIN_SUCCESS",
         payload: response.data.data,
       });
+      props.onHide();
 //       window.location.replace('/')
 
     } catch (error) {
