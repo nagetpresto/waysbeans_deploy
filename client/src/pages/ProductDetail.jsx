@@ -120,7 +120,7 @@ function ProductDetail(){
                 </Modal>
                 <Modal show={showStock} onHide={() => setShowStock(false)}>
                     <Modal.Body className='text-danger text-center'>
-                        Your cannot add product more than the stock 
+                        You cannot add product more than the stock 
                     </Modal.Body>
             </Modal>
             </Row>
