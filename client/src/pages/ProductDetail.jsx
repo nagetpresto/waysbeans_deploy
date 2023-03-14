@@ -56,32 +56,27 @@ function ProductDetail(){
     const addToCart = useMutation(async (e) => {
         if (localStorage.token) {
             if(isConfirmed === true){
-                const toUpdate = cart.find(item => item.id === intId);
-                    if (toUpdate.qty < data.stock){
-                        try {
-                            e.preventDefault();
-                      
-                            const config = {
-                                headers: {
-                                "Content-type": "application/json",
-                                },
-                            };
-                      
-                            const data = {
-                                product_id: intId,
-                            };
-        
-                            const body = JSON.stringify(data);
-                      
-                            await API.post("/carts", body, config);
-                            setShowModal(true);
-                      
-                        } catch (error) {
-                        console.log(error);
-                        }
-                    }else{
-                        setShowStock(true)
-                    }
+                try {
+                    e.preventDefault();
+              
+                    const config = {
+                        headers: {
+                        "Content-type": "application/json",
+                        },
+                    };
+              
+                    const data = {
+                        product_id: intId,
+                    };
+
+                    const body = JSON.stringify(data);
+              
+                    await API.post("/carts", body, config);
+                    setShowModal(true);
+              
+                } catch (error) {
+                console.log(error);
+                }
             }else{
                 setShowConfirm(true);
             }
@@ -120,7 +115,7 @@ function ProductDetail(){
                 </Modal>
                 <Modal show={showStock} onHide={() => setShowStock(false)}>
                     <Modal.Body className='text-danger text-center'>
-                        You cannot add product more than the stock 
+                        Your cannot add product more than the stock 
                     </Modal.Body>
             </Modal>
             </Row>
