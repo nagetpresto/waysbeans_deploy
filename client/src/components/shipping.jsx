@@ -123,7 +123,7 @@ function ShippingForm(props) {
           </Form.Group>
 
           <Button className='col-12 mb-2' variant="outline-primary" type="submit">
-            Pay
+            {handleSubmit.isLoading ? "Loading..." : "Pay"}
           </Button>
         </Form>
       </Modal.Body>
