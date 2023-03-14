@@ -12,6 +12,7 @@ function ProductDetail(){
     useEffect (() => {
         fakeAPI();
         AOS.init();
+        cartData();
     })
 
     // Fetching product data
@@ -28,6 +29,19 @@ function ProductDetail(){
       }
     };
 
+    // Fetching cart data
+    const [cart, setCart] = useState([]);
+    const cartData = async () => {
+        try {
+        const response = await API.get(`/carts-active`);
+        if (response.data.code === 200) {
+            setCart(response.data.data);
+        }
+        } catch (error) {
+        console.log(error);
+        }
+    };
+
     // confrim context
     const [state, dispatch] = useContext(UserContext);
     const isConfirmed = state.user.is_confirmed;
@@ -36,32 +50,38 @@ function ProductDetail(){
     // Handle Add to cart
     const [showModal, setShowModal] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
+    const [showStock, setShowStock] = useState(false);
     const { id } = useParams(); 
     const intId = parseInt(id, 10);
     const addToCart = useMutation(async (e) => {
         if (localStorage.token) {
             if(isConfirmed === true){
-                try {
-                    e.preventDefault();
-              
-                    const config = {
-                        headers: {
-                        "Content-type": "application/json",
-                        },
-                    };
-              
-                    const data = {
-                        product_id: intId,
-                    };
-              
-                    const body = JSON.stringify(data);
-              
-                    await API.post("/carts", body, config);
-                    setShowModal(true);
-              
-                } catch (error) {
-                console.log(error);
-                }
+                const toUpdate = cart.find(item => item.id === intId);
+                    if (toUpdate.qty < data.stock){
+                        try {
+                            e.preventDefault();
+                      
+                            const config = {
+                                headers: {
+                                "Content-type": "application/json",
+                                },
+                            };
+                      
+                            const data = {
+                                product_id: intId,
+                            };
+        
+                            const body = JSON.stringify(data);
+                      
+                            await API.post("/carts", body, config);
+                            setShowModal(true);
+                      
+                        } catch (error) {
+                        console.log(error);
+                        }
+                    }else{
+                        setShowStock(true)
+                    }
             }else{
                 setShowConfirm(true);
             }
@@ -81,7 +101,7 @@ function ProductDetail(){
                     <p className="mb-4">stock : {data?.stock}</p>
                     <p className="product-description">{data?.description}</p>
                     <span className="mt-2 mb-5">Rp.{data?.price}</span>
-                    <Button  onClick={ (e) => addToCart.mutate(e)} variant="outline-primary" className='add-chart d-flex justify-content-center align-items-center py-1'>Add Chart</Button>
+                    <Button  onClick={ (e) => addToCart.mutate(e)} variant="outline-primary" className='add-chart d-flex justify-content-center align-items-center py-1'>{addToCart.isLoading ? "Loading...": "Add Cart"}</Button>
                 </div>
                 <Modal show={showModal} onHide={() => setShowModal(false)}>
                     <Modal.Body className='text-success text-center'>
@@ -98,6 +118,11 @@ function ProductDetail(){
                         Please login or register to proceed transaction!
                     </Modal.Body>
                 </Modal>
+                <Modal show={showStock} onHide={() => setShowStock(false)}>
+                    <Modal.Body className='text-danger text-center'>
+                        Your cannot add product more than the stock 
+                    </Modal.Body>
+            </Modal>
             </Row>
         </Container>
     )
