@@ -79,7 +79,7 @@ function SignUpForm(props) {
           </Form.Group>
 
           <Button className='col-12 mb-2' variant="outline-primary" type="submit">
-            Register
+            {handleSubmitRegister.isLoading ? "Loading..." : "Register"}
           </Button>
           <Form.Text className="d-flex justify-content-center">
               Already have an account? klik <span onClick={handleSwitchToLogin}>Here</span>
