@@ -56,7 +56,7 @@ function App() {
     dispatch({
       type: "LOGOUT",
     });
-//     window.location.replace('/')
+  window.location.replace('/')
   }
 
   // Calculating Cart Item
