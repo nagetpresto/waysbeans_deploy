@@ -37,7 +37,7 @@ function SignInForm(props) {
         payload: response.data.data,
       });
       props.onHide();
-//       window.location.replace('/')
+      window.location.replace('/')
 
     } catch (error) {
       console.log(error);
