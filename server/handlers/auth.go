@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 	"math/rand"
-	// "net/smtp"
+	"os"
 	"fmt"
 	"gopkg.in/gomail.v2"
 
@@ -42,36 +42,12 @@ func generateConfirmationCode() string {
 	return string(b)
 }
 
-//SMTP server (email, psw)
-// func sendEmailConfirmation(user models.User) error {
-// 	from := "bilqist1234@gmail.com"
-// 	password := "hdlhpvzdolakxvzg"
-// 	to := []string{user.Email}
-// 	subject := "Confirm your email address"
-// 	body := fmt.Sprintf("Hi %s,\n\nPlease click the following link to confirm your email address: http://localhost:3000/cofirm-email-status/%s\n\nThanks!", user.Name, user.ConfirmCode)
-
-// 	// auth to gmail acc (identity, user, psw, hostname)
-// 	auth := smtp.PlainAuth("", from, password, "smtp.gmail.com")
-// 	// email content
-// 	msg := []byte("To: " + user.Email + "\r\n" +
-// 	  "Subject: " + subject + "\r\n" +
-// 	  "Content-Type: text/plain; charset=utf-8\r\n" +
-// 	  "\r\n" + body + "\r\n")
-// 	// error handling
-// 	err := smtp.SendMail("smtp.gmail.com:587", auth, from, to, msg)
-// 	if err != nil {
-// 	  log.Println("Error sending email:", err)
-// 	  return err
-// 	}
-// 	return nil
-// }
-
 func sendEmailConfirmation(user models.User) error {
 	var CONFIG_SMTP_HOST = "smtp.gmail.com"
 	var CONFIG_SMTP_PORT = 587
 	var CONFIG_SENDER_NAME = "WaysBeans <bilqist1234@gmail.com>"
-	var CONFIG_AUTH_EMAIL = "bilqist1234@gmail.com"
-	var CONFIG_AUTH_PASSWORD = "hdlhpvzdolakxvzg"
+	var CONFIG_AUTH_EMAIL = os.Getenv("EMAIL_SYSTEM")
+	var CONFIG_AUTH_PASSWORD = os.Getenv("PASSWORD_SYSTEM")
 
 	mailer := gomail.NewMessage()
 	mailer.SetHeader("From", CONFIG_SENDER_NAME)
