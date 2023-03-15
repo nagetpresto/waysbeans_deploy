@@ -139,10 +139,8 @@ func (h *handlerProduct) UpdateProduct(c echo.Context) error {
 		}
 		product.Image =  resp.SecureURL
 
-	}else{
-		product.Image =  ""
 	}
-
+	
 	data, err := h.ProductRepository.UpdateProduct(product)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()})
