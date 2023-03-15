@@ -119,7 +119,7 @@ function App() {
                   </div>
                   }
                   <div className='user-profile bg-dark d-flex justify-content-center align-items-center'>
-                    <img src={"http://localhost:5000/uploads/"+ profile} className="img-fluid" alt=""/>
+                    <img src={profile} className="img-fluid" alt=""/>
                   </div> 
                   {status === "admin" ? 
                     <AdminDropDown onChange={handleLogOut}/> :

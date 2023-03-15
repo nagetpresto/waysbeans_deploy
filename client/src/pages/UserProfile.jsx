@@ -122,7 +122,7 @@ function UserProfile() {
                                 <p>{user.email}</p>
                             </div>
                         </Row>
-                        <Button onClick={() => setShowProfile(true)}  className='col-12 mb-2 btn-sm' variant="outline-primary" type="submit">
+                        <Button onClick={() => setShowProfile(true)}  className='col-12 mb-2 btn-sm mt-3' variant="outline-primary" type="submit">
                             Update Profile
                         </Button>
                     </div>
