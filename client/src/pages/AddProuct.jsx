@@ -104,7 +104,7 @@ export default function AddProduct() {
                             className="custom-file-input"
                             type="file"
                             accept="image/*"
-                            required
+//                             required
                             onChange={handleFileChange} />
                             <label className="upload px-2 py-1" for="upload">Product Photo
                                 <img className="ms-3" src={upload}/>
