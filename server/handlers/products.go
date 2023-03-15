@@ -17,6 +17,11 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+var ctx = context.Background()
+var CLOUD_NAME = os.Getenv("CLOUD_NAME")
+var API_KEY = os.Getenv("API_KEY")
+var API_SECRET = os.Getenv("API_SECRET")
+
 type handlerProduct struct {
 	ProductRepository repositories.ProductRepository
 }
@@ -58,27 +63,29 @@ func (h *handlerProduct) CreateProduct(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()})
 	}
 
-	var ctx = context.Background()
-	var CLOUD_NAME = os.Getenv("CLOUD_NAME")
-	var API_KEY = os.Getenv("API_KEY")
-	var API_SECRET = os.Getenv("API_SECRET")
-
 	// get from middleware
 	dataFile := c.Get("dataFile").(string)
+	ImageCloud := ""
+	if dataFile != "" {
+		// Configuration
+		cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
+		// Upload file to Cloudinary ...
+		resp, err := cld.Upload.Upload(ctx, dataFile, uploader.UploadParams{Folder: "WaysBeans"});
+		if err != nil {
+		fmt.Println(err.Error())
+		}
+		ImageCloud =  resp.SecureURL
 
-	// Configuration
-	cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
-	// Upload file to Cloudinary ...
-	resp, err := cld.Upload.Upload(ctx, dataFile, uploader.UploadParams{Folder: "WaysBeans"});
-	if err != nil {
-	fmt.Println(err.Error())
+	}else{
+		ImageCloud =  ""
 	}
+
 	product := models.Product{
 		Name:   request.Name,
-		Stock:   request.Stock,
+		Stock:  request.Stock,
 		Price:  request.Price,
 		Description:   request.Description,
-		Image:  resp.SecureURL,
+		Image:  ImageCloud,
 	}
 
 	product, err = h.ProductRepository.CreateProduct(product)
@@ -120,9 +127,20 @@ func (h *handlerProduct) UpdateProduct(c echo.Context) error {
 		product.Description = request.Description
 	}
 
+	// get from middleware
 	dataFile := c.Get("dataFile").(string)
 	if dataFile != "" {
-		product.Image = dataFile
+		// Configuration
+		cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
+		// Upload file to Cloudinary ...
+		resp, err := cld.Upload.Upload(ctx, dataFile, uploader.UploadParams{Folder: "WaysBeans"});
+		if err != nil {
+		fmt.Println(err.Error())
+		}
+		product.Image =  resp.SecureURL
+
+	}else{
+		product.Image =  ""
 	}
 
 	data, err := h.ProductRepository.UpdateProduct(product)
