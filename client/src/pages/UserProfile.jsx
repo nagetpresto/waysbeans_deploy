@@ -216,7 +216,7 @@ function UserProfile() {
                         </Form.Group>
 
                         <Button className='col-12 mb-2' variant="outline-primary" type="submit">
-                            Update
+                            {handleSubmit.isLoading ? "Loading..." : "Update"}
                         </Button>
                     </Form>
                 </Modal.Body>

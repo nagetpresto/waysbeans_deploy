@@ -3,23 +3,29 @@ package handlers
 import (
 	authdto "BE/dto/auth"
 	dto "BE/dto/result"
+	jwtToken "BE/pkg/jwt"
+	"BE/models"
+	"BE/pkg/bcrypt"
+	"BE/repositories"
 	"log"
 	"net/http"
 	"time"
 	"math/rand"
 	"os"
 	"fmt"
+
 	"gopkg.in/gomail.v2"
-
-	"BE/models"
-	"BE/pkg/bcrypt"
-	jwtToken "BE/pkg/jwt"
-	"BE/repositories"
-
+	"github.com/cloudinary/cloudinary-go/v2"
+	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
 	"github.com/go-playground/validator/v10"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"
 )
+
+// var ctx = context.Background()
+// var CLOUD_NAME = os.Getenv("CLOUD_NAME")
+// var API_KEY = os.Getenv("API_KEY")
+// var API_SECRET = os.Getenv("API_SECRET")
 
 type handlerAuth struct {
 	AuthRepository repositories.AuthRepository
@@ -241,9 +247,17 @@ func (h *handlerAuth) UpdateActiveUser(c echo.Context) error {
 		user.Password = password
 	}
 
+	// get from middleware
 	dataFile := c.Get("dataFile").(string)
 	if dataFile != "" {
-		user.Image = dataFile
+		// Configuration
+		cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
+		// Upload file to Cloudinary ...
+		resp, err := cld.Upload.Upload(ctx, dataFile, uploader.UploadParams{Folder: "WaysBeans"});
+		if err != nil {
+		fmt.Println(err.Error())
+		}
+		user.Image =  resp.SecureURL
 	}
 
 	data, err := h.AuthRepository.UpdateActiveUser(user)

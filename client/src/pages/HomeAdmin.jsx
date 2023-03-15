@@ -41,12 +41,12 @@ function HomeAdmin() {
                 <Table size="sm" bordered responsive="sm">
                     <thead>
                         <tr className=''>
-                            <th style={{width: '150px'}}>ID</th>
-                            <th style={{width: '100px'}}>User</th>
-                            <th style={{width: '220px'}}>Name</th>
-                            <th style={{width: '220px'}}>Address</th>
+                            <th style={{width: '100px'}}>ID</th>
+                            <th style={{width: '300px'}}>User</th>
+                            <th style={{width: '300px'}}>Name</th>
+                            <th style={{width: '250px'}}>Address</th>
                             <th style={{width: '150px'}}>Post Code</th>
-                            <th style={{width: '180px'}}>Products Order</th>
+                            <th style={{width: '200px'}}>Products Order</th>
                             <th style={{width: '200px'}}>Status</th>
                         </tr>
                     </thead>
