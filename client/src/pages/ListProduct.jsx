@@ -56,18 +56,18 @@ export default function ListProduct() {
                 <thead>
                     <tr>
                         <th className='text-center' style={{width: '10px'}}>No</th>
-                        <th className='text-center' style={{width: '200px', overflow:'hidden'}}>image</th>
-                        <th className='text-center' style={{width: '250px'}}>Name</th>
+                        <th className='text-center' style={{width: '120px', overflow:'hidden'}}>image</th>
+                        <th className='text-center' style={{width: '180px'}}>Name</th>
                         <th className='text-center' style={{width: '95px'}}>Stock</th>
                         <th className='text-center' style={{width: '95px'}}>Price</th>
-                        <th className='text-center' style={{width: '200px'}}>Description</th>
-                        <th className='text-center' style={{width: '200px'}}>Action</th>
+                        <th className='text-center' style={{width: '300px'}}>Description</th>
+                        <th className='text-center' style={{width: '170px'}}>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                 { product?.map((item, i) => {
                     return(
-                        <tr className='text-center' key={i}>
+                        <tr className='text-center'  key={i}>
                             <td>{i+1}</td>
                             <td className='d-flex justify-content-center align-items-center'>
                                 <div className='d-flex justify-content-center align-items-center' style={{width:'90px', height:'150px', overflow:'hidden'}}>
@@ -77,7 +77,7 @@ export default function ListProduct() {
                             <td>{item.name}</td>
                             <td>{item.stock}</td>
                             <td>{item.price}</td>
-                            <td>{item.description}</td>
+                            <td style={{textAlign:'justify'}}>{item.description}</td>
                             <td className='text-center'>
                                 <Button onClick={() => handleDelete(item.id)} className='btn btn-danger py-0 me-3 btn-sm'>Delete</Button>
                                 <Button href={`/update-product/${item.id}`} className='btn btn-success py-0 btn-sm'>Update</Button>
