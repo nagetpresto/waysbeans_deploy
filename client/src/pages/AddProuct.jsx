@@ -112,7 +112,7 @@ export default function AddProduct() {
 
                         <div className='text-center'>
                         <Button className='col-6 mb-2' variant="outline-primary" type="submit">
-                            Add Product
+                            {handleSubmit.isLoading ? "Loading..." : "Add Product"}
                         </Button>
                         </div>
                     </Form>
