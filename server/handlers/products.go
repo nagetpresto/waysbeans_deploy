@@ -7,7 +7,12 @@ import (
 	"BE/repositories"
 	"net/http"
 	"strconv"
+	"context"
+	"os"
+	"fmt"
 
+	"github.com/cloudinary/cloudinary-go/v2"
+	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 )
@@ -53,14 +58,27 @@ func (h *handlerProduct) CreateProduct(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()})
 	}
 
+	var ctx = context.Background()
+	var CLOUD_NAME = os.Getenv("CLOUD_NAME")
+	var API_KEY = os.Getenv("API_KEY")
+	var API_SECRET = os.Getenv("API_SECRET")
+
+	// get from middleware
 	dataFile := c.Get("dataFile").(string)
 
+	// Configuration
+	cld, _ := cloudinary.NewFromParams(CLOUD_NAME, API_KEY, API_SECRET)
+	// Upload file to Cloudinary ...
+	resp, err := cld.Upload.Upload(ctx, dataFile, uploader.UploadParams{Folder: "WaysBeans"});
+	if err != nil {
+	fmt.Println(err.Error())
+	}
 	product := models.Product{
 		Name:   request.Name,
 		Stock:   request.Stock,
 		Price:  request.Price,
 		Description:   request.Description,
-		Image:  dataFile,
+		Image:  resp.SecureURL,
 	}
 
 	product, err = h.ProductRepository.CreateProduct(product)

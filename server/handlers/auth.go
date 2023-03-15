@@ -48,6 +48,7 @@ func sendEmailConfirmation(user models.User) error {
 	var CONFIG_SENDER_NAME = "WaysBeans <bilqist1234@gmail.com>"
 	var CONFIG_AUTH_EMAIL = os.Getenv("EMAIL_SYSTEM")
 	var CONFIG_AUTH_PASSWORD = os.Getenv("PASSWORD_SYSTEM")
+	var CONFIRM_URL = os.Getenv("CONFIRM_URL")
 
 	mailer := gomail.NewMessage()
 	mailer.SetHeader("From", CONFIG_SENDER_NAME)
@@ -65,12 +66,12 @@ func sendEmailConfirmation(user models.User) error {
 		<ul style="list-style-type:none;">
 		<li>Hi %s</li>
 		<br>
-		<li>Please click the following link to confirm your email address: http://localhost:3000/cofirm-email-status/%s</li>
+		<li>Please click the following link to confirm your email address: %s/cofirm-email-status/%s</li>
 		<br>
 		<li>Thank you!</li>
 		</ul>
 		</body>
-	</html>`, user.Name, user.ConfirmCode))
+	</html>`, user.Name, CONFIRM_URL, user.ConfirmCode))
 
 	dialer := gomail.NewDialer(
 		CONFIG_SMTP_HOST,

@@ -40,12 +40,17 @@ func UploadFile(next echo.HandlerFunc) echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, err)
 		}
 
-		// slicing name
 		data := tempFile.Name()
-		filename := data[8:]
 
-		// set value
-		c.Set("dataFile", filename)
+		c.Set("dataFile", data)
 		return next(c)
+
+		// // slicing name
+		// data := tempFile.Name()
+		// filename := data[8:]
+
+		// // set value
+		// c.Set("dataFile", filename)
+		// return next(c)
 	}
 }
