@@ -100,6 +100,7 @@ export default function AddProduct() {
                         <Form.Group className='mb-4'>
                             <Form.Control
                             id="upload"
+                            name="image"
                             className="custom-file-input"
                             type="file"
                             accept="image/*"
