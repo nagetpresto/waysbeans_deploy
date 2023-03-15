@@ -113,7 +113,7 @@ function UserProfile() {
                         <h5 className="mb-4">My Cart</h5>
                         <Row>
                             <div className="userprofileimg col-5 justify-content-center align-items-center">
-                                <img style={{cursor:'pointer'}} onClick={() => setShowProfile(true)} src={"http://localhost:5000/uploads/"+user.image} className="user-img img-fluid" alt="Click to change" />
+                                <img style={{cursor:'pointer'}} src={user.image} className="user-img img-fluid" alt="Click to change" />
                             </div>
                             <div className="profile-detail col-7 d-flex flex-column">
                                 <h6 className="mb-0">Full Name</h6>
@@ -122,6 +122,9 @@ function UserProfile() {
                                 <p>{user.email}</p>
                             </div>
                         </Row>
+                        <Button onClick={() => setShowProfile(true)}  className='col-12 mb-2 btn-sm' variant="outline-primary" type="submit">
+                            Update Profile
+                        </Button>
                     </div>
 
                     <div className="userprofile col-md-7 col-12">
@@ -133,7 +136,7 @@ function UserProfile() {
                                 return(
                                     <div style={{cursor: 'pointer'}} onClick={() => handleDetail(trans.id)} key={i} className="transaction-card user-card d-flex flex-row justify-content-start align-items-center col-12">
                                         <div className="prod-img py-3 col-2 d-flex justify-content-center align-items-center">
-                                            <img alt="Product" className="img-fluid" src={"http://localhost:5000/uploads/" + (trans.cart.length > 0 ?trans.cart[0].product.image:"")} />
+                                            <img alt="Product" className="img-fluid" src={(trans.cart.length > 0 ?trans.cart[0].product.image:"")} />
                                         </div>
                                         <div className="prod-detail col-7 px-3 d-flex flex-column justify-content-center">
                                             <h1 className="mb-1">{trans.cart.length > 0 ? trans.cart[0].product.name : ""}</h1>
@@ -270,7 +273,7 @@ function UserProfile() {
                                     <td>{i+1}</td>
                                     <td className='d-flex justify-content-center align-items-center'>
                                         <div className='d-flex justify-content-center align-items-center' style={{width:'90px', height:'150px', overflow:'hidden'}}>
-                                            <img className='img-fluid' src={"http://localhost:5000/uploads/"+  item.product.image}/>
+                                            <img className='img-fluid' src={item.product.image}/>
                                         </div>
                                     </td>
                                     <td>{item.product.name}</td>

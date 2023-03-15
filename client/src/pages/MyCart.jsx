@@ -35,6 +35,7 @@ function MyCart(){
     
     const [showModal, setShowModal] = useState(false);
     const [showShipping, setShowShipping] = useState(false);
+    const [showStock, setShowStock] = useState(false);
     // Increasing qty
     const handleAddQty = async (id, e) => {
         const toUpdate = cart.find(item => item.id === id);
@@ -50,11 +51,15 @@ function MyCart(){
             const data = {
                 qty: 1+toUpdate.qty,
             };
+
+            if(data.qty > toUpdate.product.stock){
+                setShowStock(true)
+            }else{
+                const body = JSON.stringify(data);
       
-            const body = JSON.stringify(data);
-      
-            await API.patch(`/carts/${id}`, body, config);
-            setShowModal(true);
+                await API.patch(`/carts/${id}`, body, config);
+                setShowModal(true);
+            }
         } 
         catch (error) {
             console.log(error);
@@ -125,7 +130,7 @@ function MyCart(){
                                 return (
                                     <div key={i} className='d-flex flex-row'>
                                         <div className='cart-img col-2'>
-                                            <img className='img-fluid' src={"http://localhost:5000/uploads/" + item.product.image}/>
+                                            <img className='img-fluid' src={item.product.image}/>
                                         </div>
                                         <div className='ps-3 col-10 d-flex flex-column justify-content-center'>
                                             <div className="cart-detail-1 d-flex flex-row">
@@ -182,6 +187,11 @@ function MyCart(){
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                     <Modal.Body className='text-success text-center'>
                         Success Update Cart
+                    </Modal.Body>
+            </Modal>
+            <Modal show={showStock} onHide={() => setShowStock(false)}>
+                    <Modal.Body className='text-danger text-center'>
+                        You cannot add product more than the stock 
                     </Modal.Body>
             </Modal>
             <ShippingForm show={showShipping} onHide={() => setShowShipping(false)}/>            

@@ -33,7 +33,7 @@ export default function UpdateProduct() {
         const response = await API.get(`/products/${params.id}`);
         if (response.data.code === 200) {
           setProduct(response.data.data);
-          setPreview("http://localhost:5000/uploads"+response.data.data.image);
+          setPreview(response.data.data.image);
         }
       } catch (error) {
         console.log(error);
@@ -131,7 +131,7 @@ export default function UpdateProduct() {
 
                         <div className='text-center'>
                         <Button className='col-6 mb-2' variant="outline-primary" type="submit">
-                            {handleSubmit.isLoading? "LAGI LOADING" : "UPDATE PRODUCT"}
+                        {handleSubmit.isLoading ? "Loading..." : "Update Product"}
                         </Button>
                         </div>
                     </Form>

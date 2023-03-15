@@ -36,7 +36,8 @@ function SignInForm(props) {
         type: "LOGIN_SUCCESS",
         payload: response.data.data,
       });
-      window.location.reload()
+      props.onHide();
+      window.location.replace('/')
 
     } catch (error) {
       console.log(error);
@@ -61,7 +62,7 @@ function SignInForm(props) {
           </Form.Group>
 
           <Button className='col-12 mb-2' variant="outline-primary" type="submit">
-            Login
+            {handleSubmit.isLoading ? "Loading..." : "Login"}
           </Button>
           <Form.Text className="d-flex justify-content-center">
               Don't have an account? klik <span onClick={handleSwitchToRegister}>Here</span>

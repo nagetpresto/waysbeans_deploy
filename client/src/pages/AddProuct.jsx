@@ -100,10 +100,11 @@ export default function AddProduct() {
                         <Form.Group className='mb-4'>
                             <Form.Control
                             id="upload"
+                            name="image"
                             className="custom-file-input"
                             type="file"
                             accept="image/*"
-                            required
+                            // required
                             onChange={handleFileChange} />
                             <label className="upload px-2 py-1" for="upload">Product Photo
                                 <img className="ms-3" src={upload}/>
@@ -112,7 +113,7 @@ export default function AddProduct() {
 
                         <div className='text-center'>
                         <Button className='col-6 mb-2' variant="outline-primary" type="submit">
-                            Add Product
+                            {handleSubmit.isLoading ? "Loading..." : "Add Product"}
                         </Button>
                         </div>
                     </Form>
